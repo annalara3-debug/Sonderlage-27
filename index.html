@@ -8,8 +8,8 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial;
-    background: #0b0f1a;
+    font-family: Arial, sans-serif;
+    background: #05070f;
     color: white;
     display: flex;
     justify-content: center;
@@ -18,45 +18,54 @@ body {
     overflow: hidden;
 }
 
+/* ====== LOGIN PANEL ====== */
 .panel {
     width: 90%;
-    max-width: 500px;
-    background: #121a2a;
-    padding: 20px;
-    border-radius: 12px;
+    max-width: 520px;
+    background: rgba(18, 26, 42, 0.95);
+    padding: 25px;
+    border-radius: 14px;
     text-align: center;
-    border: 2px solid #1f2b45;
-    z-index: 2;
+    border: 2px solid #24324f;
+    z-index: 3;
+    backdrop-filter: blur(8px);
 }
 
-h1 { color: #ff3b3b; }
+h1 {
+    color: #ff2d2d;
+    letter-spacing: 1px;
+}
 
 input {
     width: 80%;
     padding: 12px;
     margin-top: 15px;
     border-radius: 8px;
+    border: none;
+    outline: none;
 }
 
 button {
     margin-top: 15px;
-    padding: 12px;
-    background: red;
+    padding: 12px 20px;
+    background: linear-gradient(45deg, #ff0000, #b30000);
     border: none;
     color: white;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
 }
 
-/* Blaulicht */
+/* ====== BLINKLICHT ====== */
 .flash {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 40%),
-                radial-gradient(circle, rgba(0,0,255,0.2), transparent 40%);
-    animation: blink 0.4s infinite;
+    background: radial-gradient(circle, rgba(255,0,0,0.25), transparent 45%),
+                radial-gradient(circle, rgba(0,60,255,0.25), transparent 45%);
+    animation: blink 0.35s infinite;
     opacity: 0;
     pointer-events: none;
+    z-index: 2;
 }
 
 @keyframes blink {
@@ -65,13 +74,73 @@ button {
     100% {opacity: 0;}
 }
 
-/* Konfetti */
+/* ====== END SCREEN ====== */
+#successScreen {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background: url("https://images.unsplash.com/photo-1520975922284-9c3b5d0d8d5c?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+    z-index: 10;
+}
+
+#successOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+}
+
+.fireframe {
+    position: relative;
+    z-index: 11;
+    max-width: 900px;
+    padding: 30px;
+    border: 3px solid #ff2a2a;
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(255,0,0,0.6);
+    background: rgba(10, 10, 20, 0.7);
+}
+
+.title {
+    font-size: 40px;
+    color: #ff3b3b;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.subtitle {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #ffd700;
+}
+
+.message {
+    margin-top: 25px;
+    font-size: 22px;
+    line-height: 1.6;
+}
+
+.highlight {
+    color: #ff3b3b;
+    font-weight: bold;
+}
+
+.icon {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+/* ====== CONFETTI ====== */
 .confetti {
     position: fixed;
     width: 10px;
     height: 10px;
     top: -10px;
     animation: fall 3s linear forwards;
+    z-index: 20;
 }
 
 @keyframes fall {
@@ -87,13 +156,31 @@ button {
 
 <div class="flash" id="flash"></div>
 
-<div class="panel">
+<div class="panel" id="loginPanel">
     <h1>🚒 Leitstelle Zugriff</h1>
-
     <input id="code" placeholder="CODE...">
     <button onclick="check()">Bestätigen</button>
-
     <div id="status">Warte auf Eingabe...</div>
+</div>
+
+<!-- ===== SUCCESS SCREEN ===== -->
+<div id="successScreen">
+    <div id="successOverlay"></div>
+
+    <div class="fireframe">
+        <div class="icon">🚒🔥</div>
+        <div class="title">Mission erfolgreich</div>
+        <div class="subtitle">ZUGRIFF GEWÄHRT – ZIEL ERREICHT</div>
+
+        <div class="message">
+            <p><span class="highlight">Glückwunsch, Kamerad.</span></p>
+
+            <p>
+                Es gibt nur noch eine Aufgabe, und diese lautet:<br><br>
+                <b>Genieße den Tag und schau nach, was sich im <span class="highlight">Schlafzimmer</span> für dich verbirgt oder versteckt.</b>
+            </p>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -102,30 +189,19 @@ function check() {
     const status = document.getElementById("status");
     const flash = document.getElementById("flash");
 
-    status.innerHTML = "🔍 Prüfe Code...";
+    status.innerHTML = "🔍 Leitstelle prüft Code...";
 
     setTimeout(() => {
 
         if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
 
-            alert("✔ Zugriff erlaubt!");
-
             flash.style.opacity = "1";
-
-            status.innerHTML = "📡 Verbindung wird hergestellt...";
-
-            setTimeout(() => {
-                status.innerHTML = "🎁 Geschenk wird lokalisiert...";
-            }, 1200);
+            document.getElementById("loginPanel").style.display = "none";
 
             setTimeout(() => {
-                status.innerHTML = "📍 KOORDINATEN FREIGEGEBEN!";
+                showSuccess();
                 confetti();
-            }, 2500);
-
-            setTimeout(() => {
-                window.location.href = "gift.html";
-            }, 4500);
+            }, 1200);
 
         } else {
             status.innerHTML = "❌ Zugriff verweigert!";
@@ -134,12 +210,16 @@ function check() {
     }, 800);
 }
 
+function showSuccess() {
+    document.getElementById("successScreen").style.display = "flex";
+}
+
 function confetti() {
-    for(let i=0;i<80;i++){
+    for(let i=0;i<120;i++){
         const c = document.createElement("div");
         c.classList.add("confetti");
         c.style.left = Math.random()*100 + "vw";
-        c.style.background = ["red","blue","yellow","green"][Math.floor(Math.random()*4)];
+        c.style.background = ["red","blue","yellow","orange"][Math.floor(Math.random()*4)];
         c.style.animationDuration = (2+Math.random()*2)+"s";
         document.body.appendChild(c);
 
