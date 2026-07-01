@@ -6,7 +6,7 @@
 <title>Leitstelle Zugriff</title>
 
 <style>
-body {<h1>TEST 123</h1>    
+body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #0b0f1a;
@@ -15,27 +15,6 @@ body {<h1>TEST 123</h1>
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
-}
-
-/* Blaulicht */
-.siren {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    background: radial-gradient(circle, rgba(255,0,0,0.15), transparent 40%),
-                radial-gradient(circle, rgba(0,0,255,0.15), transparent 40%);
-    animation: flash 0.5s infinite;
-    opacity: 0;
-}
-
-@keyframes flash {
-    0% {opacity: 0;}
-    50% {opacity: 1;}
-    100% {opacity: 0;}
 }
 
 .panel {
@@ -46,7 +25,7 @@ body {<h1>TEST 123</h1>
     padding: 20px;
     text-align: center;
     border: 2px solid #1f2b45;
-    z-index: 2;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
 h1 {
@@ -73,36 +52,22 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background: #ff1f1f;
+}
+
 #status {
     margin-top: 20px;
     color: #9fb3d1;
-}
-
-/* Konfetti */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: red;
-    top: -10px;
-    animation: fall 3s linear forwards;
-}
-
-@keyframes fall {
-    to {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-    }
 }
 </style>
 </head>
 
 <body>
 
-<div class="siren" id="siren"></div>
-
 <div class="panel">
     <h1>🚒 Leitstelle Zugriff</h1>
+    <p>Zugangscode eingeben:</p>
 
     <input type="text" id="codeInput" placeholder="CODE...">
     <br>
@@ -112,8 +77,26 @@ button {
 </div>
 
 <script>
-alert("SCRIPT LÄUFT");
-</script>}
+function checkCode() {
+    const code = document.getElementById("codeInput").value.trim();
+    const status = document.getElementById("status");
+
+    status.innerHTML = "Prüfe Code... ⏳";
+
+    setTimeout(() => {
+        if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
+            status.innerHTML = "Zugriff erlaubt ✔️<br>Koordinaten werden entschlüsselt... 📡";
+
+            setTimeout(() => {
+                status.innerHTML = "🎁 Daten freigeschaltet!";
+            }, 2000);
+
+        } else {
+            status.innerHTML = "Zugriff verweigert ❌";
+        }
+    }, 1000);
+}
+</script>
 
 </body>
 </html>
