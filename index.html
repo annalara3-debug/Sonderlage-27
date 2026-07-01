@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitstelle</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0f1a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Hauptcontainer */
+.panel {
+    width: 90%;
+    max-width: 500px;
+    background: #121a2a;
+    border: 2px solid #1f2b45;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    text-align: center;
+}
+
+/* Titel */
+h1 {
+    color: #ff3b3b;
+    margin-bottom: 10px;
+}
+
+/* Eingabefeld */
+input {
+    width: 80%;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+/* Button */
+button {
+    margin-top: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #ff3b3b;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #ff1f1f;
+}
+
+/* Status Box */
+#status {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #9fb3d1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+    <h1>🚒 Leitstelle Zugriff</h1>
+    <p>Bitte Zugangscode eingeben:</p>
+
+    <input type="text" id="codeInput" placeholder="CODE eingeben...">
+    <br>
+    <button onclick="checkCode()">Bestätigen</button>
+
+    <div id="status">Warte auf Eingabe...</div>
+</div>
+
+<script>
+function checkCode() {
+    const code = document.getElementById("codeInput").value;
+    const status = document.getElementById("status");
+
+    status.innerHTML = "Prüfe Code... ⏳";
+
+    setTimeout(() => {
+        if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
+            status.innerHTML = "Zugriff erlaubt ✔️";
+        } else {
+            status.innerHTML = "Zugriff verweigert ❌";
+        }
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
