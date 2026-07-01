@@ -1,29 +1,110 @@
-function check() {
-    const input = document.getElementById("code").value;
-    const code = input.replace(/\s/g, "").trim();
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitstelle</title>
 
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b0f1a;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Blaulicht stabil */
+.flash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,0,0,0.25), transparent 40%),
+                radial-gradient(circle, rgba(0,0,255,0.25), transparent 40%);
+    animation: blink 0.6s infinite;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes blink {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+.panel {
+    background: #121a2a;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    z-index: 2;
+}
+
+h1 { color: #ff3b3b; }
+
+input {
+    width: 80%;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px;
+    background: red;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#status {
+    margin-top: 15px;
+    color: #9fb3d1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="flash" id="flash"></div>
+
+<div class="panel">
+    <h1>🚒 Leitstelle Zugriff</h1>
+
+    <input id="code" placeholder="CODE...">
+    <button onclick="check()">Bestätigen</button>
+
+    <div id="status">Warte auf Eingabe...</div>
+</div>
+
+<script>
+function check() {
+    const code = document.getElementById("code").value.trim();
     const status = document.getElementById("status");
+    const flash = document.getElementById("flash");
+
+    const correct = "LEKJCI/Kiste/D1A2/225566/WWFM";
 
     status.innerHTML = "🔍 Prüfe Code...";
 
     setTimeout(() => {
 
-        const correct = "LEKJCI/Kiste/D1A2/225566/WWFM";
-
         if(code === correct) {
+
+            flash.style.opacity = "1";
 
             alert("🎉 Glückwunsch Kamerad!");
 
             status.innerHTML =
                 "🚒 Zugriff bestätigt<br>" +
                 "📡 Letzte Aufgabe aktiv<br>" +
-                "👉 Genieße den Tag und schau dir die Überraschung in deinem Schlafzimmer an.";
-
-            document.getElementById("flash").style.opacity = "1";
-
-            setTimeout(() => {
-                createConfetti();
-            }, 500);
+                "👉 Genieße den Tag und schau dir die Überraschung im Schlafzimmer an.";
 
         } else {
             status.innerHTML = "❌ Zugriff verweigert!";
@@ -31,3 +112,7 @@ function check() {
 
     }, 800);
 }
+</script>
+
+</body>
+</html>
