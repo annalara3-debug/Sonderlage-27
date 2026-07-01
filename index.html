@@ -112,69 +112,9 @@ button {
 </div>
 
 <script>
-function checkCode() {
-    const code = document.getElementById("codeInput").value.trim();
-    const status = document.getElementById("status");
-    const siren = document.getElementById("siren");
-
-    status.innerHTML = "🔍 Code wird geprüft...";
-
-    setTimeout(() => {
-
-        if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
-
-            // Blaulicht AN
-            siren.style.opacity = "1";
-
-            status.innerHTML = "✔️ Zugriff erlaubt!";
-
-            setTimeout(() => {
-                status.innerHTML = "📡 Verbindung zur Leitstelle...";
-            }, 1200);
-
-            setTimeout(() => {
-                status.innerHTML = "🎁 Geschenk wird lokalisiert...";
-            }, 2500);
-
-            setTimeout(() => {
-                status.innerHTML = "📍 Koordinaten gefunden: GEHEIME POSITION FREIGEGEBEN!";
-            }, 3800);
-
-            setTimeout(() => {
-                createConfetti();
-            }, 4200);
-
-            setTimeout(() => {
-                window.location.href = "gift.html";
-            }, 6500);
-
-        } else {
-            status.innerHTML = "❌ Zugriff verweigert!";
-        }
-
-    }, 800);
-}
-
-/* 🎉 Konfetti Funktion */
-function createConfetti() {
-    for(let i = 0; i < 80; i++) {
-        const confetti = document.createElement("div");
-        confetti.classList.add("confetti");
-
-        confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor = 
-            ["red","blue","yellow","green","white"][Math.floor(Math.random()*5)];
-
-        confetti.style.animationDuration = (2 + Math.random()*2) + "s";
-
-        document.body.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 4000);
-    }
-}
-</script>
+<script>
+alert("SCRIPT LÄUFT");
+</script>}
 
 </body>
 </html>
