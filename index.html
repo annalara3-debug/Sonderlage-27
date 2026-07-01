@@ -1,102 +1,33 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leitstelle Zugriff</title>
+function check() {
+    const input = document.getElementById("code").value;
+    const code = input.replace(/\s/g, "").trim();
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0b0f1a;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.panel {
-    width: 90%;
-    max-width: 500px;
-    background: #121a2a;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    border: 2px solid #1f2b45;
-    box-shadow: 0 0 20px rgba(0,0,0,0.6);
-}
-
-h1 {
-    color: #ff3b3b;
-}
-
-input {
-    width: 80%;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-}
-
-button {
-    margin-top: 15px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #ff3b3b;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #ff1f1f;
-}
-
-#status {
-    margin-top: 20px;
-    color: #9fb3d1;
-}
-</style>
-</head>
-
-<body>
-
-<div class="panel">
-    <h1>🚒 Leitstelle Zugriff</h1>
-    <p>Zugangscode eingeben:</p>
-
-    <input type="text" id="codeInput" placeholder="CODE...">
-    <br>
-    <button onclick="checkCode()">Bestätigen</button>
-
-    <div id="status">Warte auf Eingabe...</div>
-</div>
-
-<script>
-function checkCode() {
-    const code = document.getElementById("codeInput").value.trim();
     const status = document.getElementById("status");
 
-    status.innerHTML = "Prüfe Code... ⏳";
+    status.innerHTML = "🔍 Prüfe Code...";
 
     setTimeout(() => {
-        if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
-            status.innerHTML = "Zugriff erlaubt ✔️<br>Koordinaten werden entschlüsselt... 📡";
+
+        const correct = "LEKJCI/Kiste/D1A2/225566/WWFM";
+
+        if(code === correct) {
+
+            alert("🎉 Glückwunsch Kamerad!");
+
+            status.innerHTML =
+                "🚒 Zugriff bestätigt<br>" +
+                "📡 Letzte Aufgabe aktiv<br>" +
+                "👉 Genieße den Tag und schau dir die Überraschung in deinem Schlafzimmer an.";
+
+            document.getElementById("flash").style.opacity = "1";
 
             setTimeout(() => {
-                status.innerHTML = "🎁 Daten freigeschaltet!";
-            }, 2000);
+                createConfetti();
+            }, 500);
 
         } else {
-            status.innerHTML = "Zugriff verweigert ❌";
+            status.innerHTML = "❌ Zugriff verweigert!";
         }
-    }, 1000);
-}
-</script>
 
-</body>
-</html>
+    }, 800);
+}
