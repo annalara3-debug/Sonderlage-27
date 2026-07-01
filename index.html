@@ -94,10 +94,12 @@ function checkCode() {
 
     setTimeout(() => {
         if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
-            status.innerHTML = "Zugriff erlaubt ✔️";
-        } else {
-            status.innerHTML = "Zugriff verweigert ❌";
-        }
+    status.innerHTML = "Zugriff erlaubt ✔️<br>Koordinaten werden entschlüsselt... 📡";
+
+    setTimeout(() => {
+        status.innerHTML = "Daten freigeschaltet 🎁";
+    }, 2000);
+}   
     }, 1000);
 }
 </script>
