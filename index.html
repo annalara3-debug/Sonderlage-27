@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leitstelle</title>
+<title>Leitstelle Zugriff</title>
 
 <style>
 body {
@@ -11,37 +11,21 @@ body {
     font-family: Arial;
     background: #0b0f1a;
     color: white;
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
     overflow: hidden;
 }
 
-/* Blaulicht stabil */
-.flash {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle, rgba(255,0,0,0.25), transparent 40%),
-                radial-gradient(circle, rgba(0,0,255,0.25), transparent 40%);
-    animation: blink 0.6s infinite;
-    opacity: 0;
-    pointer-events: none;
-}
-
-@keyframes blink {
-    0% {opacity: 0;}
-    50% {opacity: 1;}
-    100% {opacity: 0;}
-}
-
 .panel {
+    width: 90%;
+    max-width: 500px;
     background: #121a2a;
     padding: 20px;
     border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
     text-align: center;
+    border: 2px solid #1f2b45;
     z-index: 2;
 }
 
@@ -50,7 +34,8 @@ h1 { color: #ff3b3b; }
 input {
     width: 80%;
     padding: 12px;
-    margin-top: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
 }
 
 button {
@@ -63,9 +48,37 @@ button {
     cursor: pointer;
 }
 
-#status {
-    margin-top: 15px;
-    color: #9fb3d1;
+/* Blaulicht */
+.flash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 40%),
+                radial-gradient(circle, rgba(0,0,255,0.2), transparent 40%);
+    animation: blink 0.4s infinite;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes blink {
+    0% {opacity: 0;}
+    50% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+/* Konfetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 </style>
 </head>
@@ -89,28 +102,49 @@ function check() {
     const status = document.getElementById("status");
     const flash = document.getElementById("flash");
 
-    const correct = "LEKJCI/Kiste/D1A2/225566/WWFM";
-
     status.innerHTML = "🔍 Prüfe Code...";
 
     setTimeout(() => {
 
-        if(code === correct) {
+        if(code === "LEKJCI/Kiste/D1A2/225566/WWFM") {
+
+            alert("✔ Zugriff erlaubt!");
 
             flash.style.opacity = "1";
 
-            alert("🎉 Glückwunsch Kamerad!");
+            status.innerHTML = "📡 Verbindung wird hergestellt...";
 
-            status.innerHTML =
-                "🚒 Zugriff bestätigt<br>" +
-                "📡 Letzte Aufgabe aktiv<br>" +
-                "👉 Genieße den Tag und schau dir die Überraschung im Schlafzimmer an.";
+            setTimeout(() => {
+                status.innerHTML = "🎁 Geschenk wird lokalisiert...";
+            }, 1200);
+
+            setTimeout(() => {
+                status.innerHTML = "📍 KOORDINATEN FREIGEGEBEN!";
+                confetti();
+            }, 2500);
+
+            setTimeout(() => {
+                window.location.href = "gift.html";
+            }, 4500);
 
         } else {
             status.innerHTML = "❌ Zugriff verweigert!";
         }
 
     }, 800);
+}
+
+function confetti() {
+    for(let i=0;i<80;i++){
+        const c = document.createElement("div");
+        c.classList.add("confetti");
+        c.style.left = Math.random()*100 + "vw";
+        c.style.background = ["red","blue","yellow","green"][Math.floor(Math.random()*4)];
+        c.style.animationDuration = (2+Math.random()*2)+"s";
+        document.body.appendChild(c);
+
+        setTimeout(()=>c.remove(),4000);
+    }
 }
 </script>
 
